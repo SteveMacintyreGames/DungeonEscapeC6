@@ -3,7 +3,6 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
-using UnityEngine.Serialization;
 
 namespace UnityEngine
 {
@@ -24,7 +23,7 @@ namespace UnityEngine
     /// Generic visual tile for creating different tilesets like terrain, pipeline, random or animated tiles.
     /// </summary>
     [Serializable]
-    [HelpURL("https://docs.unity3d.com/Packages/com.unity.2d.tilemap.extras@latest/index.html?subfolder=/manual/RuleTile.html")]
+    [CreateAssetMenu(fileName = "New Rule Tile", menuName = "2D Extras/Tiles/Rule Tile", order = 359)]
     public class RuleTile : TileBase
     {
         /// <summary>
@@ -44,15 +43,13 @@ namespace UnityEngine
         /// The Default Collider Type set when creating a new Rule.
         /// </summary>
         public Tile.ColliderType m_DefaultColliderType = Tile.ColliderType.Sprite;
-
         /// <summary>
-        /// Angle in which the RuleTile is rotated by for matching in Degrees.
+        /// When instantiating GameObjects from any Rules, apply the original GameObject's Transform onto
+        /// the Rule's Transform to get the final Transform for the instantiated GameObject.
         /// </summary>
+        public bool m_ApplyGameObjectTransform = false;
+
         public virtual int m_RotationAngle => 90;
-
-        /// <summary>
-        /// Number of rotations the RuleTile can be rotated by for matching.
-        /// </summary>
         public int m_RotationCount => 360 / m_RotationAngle;
 
         /// <summary>
@@ -62,9 +59,6 @@ namespace UnityEngine
         [Serializable]
         public class TilingRuleOutput
         {
-            /// <summary>
-            /// Id for this Rule.
-            /// </summary>
             public int m_Id;
             /// <summary>
             /// The output Sprites for this Rule.
@@ -75,15 +69,9 @@ namespace UnityEngine
             /// </summary>
             public GameObject m_GameObject;
             /// <summary>
-            /// The output minimum Animation Speed for this Rule.
+            /// The output Animation Speed for this Rule.
             /// </summary>
-            [FormerlySerializedAs("m_AnimationSpeed")]
-            public float m_MinAnimationSpeed = 1f;
-            /// <summary>
-            /// The output maximum Animation Speed for this Rule.
-            /// </summary>
-            [FormerlySerializedAs("m_AnimationSpeed")]
-            public float m_MaxAnimationSpeed = 1f;
+            public float m_AnimationSpeed = 1f;
             /// <summary>
             /// The perlin scale factor for this Rule.
             /// </summary>
@@ -165,10 +153,6 @@ namespace UnityEngine
             }
         }
 
-        /// <summary>
-        /// The data structure holding the Rule information for matching Rule Tiles with
-        /// its neighbors.
-        /// </summary>
         [Serializable]
         public class TilingRule : TilingRuleOutput
         {
@@ -195,28 +179,6 @@ namespace UnityEngine
             /// </summary>
             public Transform m_RuleTransform;
 
-            public TilingRule Clone()
-            {
-                TilingRule rule = new TilingRule();
-                rule.m_Neighbors = new List<int>(m_Neighbors);
-                rule.m_NeighborPositions = new List<Vector3Int>(m_NeighborPositions);
-                rule.m_RuleTransform = m_RuleTransform;
-                rule.m_Sprites = new Sprite[m_Sprites.Length];
-                Array.Copy(m_Sprites, rule.m_Sprites, m_Sprites.Length);
-                rule.m_GameObject = m_GameObject;
-                rule.m_MinAnimationSpeed = m_MinAnimationSpeed;
-                rule.m_MaxAnimationSpeed = m_MaxAnimationSpeed;
-                rule.m_PerlinScale = m_PerlinScale;
-                rule.m_Output = m_Output;
-                rule.m_ColliderType = m_ColliderType;
-                rule.m_RandomTransform = m_RandomTransform;
-                return rule;
-            }
-            
-            /// <summary>
-            /// Returns all neighbors of this Tile as a dictionary
-            /// </summary>
-            /// <returns>A dictionary of neighbors for this Tile</returns>
             public Dictionary<Vector3Int, int> GetNeighbors()
             {
                 Dictionary<Vector3Int, int> dict = new Dictionary<Vector3Int, int>();
@@ -227,20 +189,12 @@ namespace UnityEngine
                 return dict;
             }
 
-            /// <summary>
-            /// Applies the values from the given dictionary as this Tile's neighbors
-            /// </summary>
-            /// <param name="dict">Dictionary to apply values from</param>
             public void ApplyNeighbors(Dictionary<Vector3Int, int> dict)
             {
                 m_NeighborPositions = dict.Keys.ToList();
                 m_Neighbors = dict.Values.ToList();
             }
 
-            /// <summary>
-            /// Gets the cell bounds of the TilingRule.
-            /// </summary>
-            /// <returns>Returns the cell bounds of the TilingRule.</returns>
             public BoundsInt GetBounds()
             {
                 BoundsInt bounds = new BoundsInt(Vector3Int.zero, Vector3Int.one);
@@ -255,9 +209,6 @@ namespace UnityEngine
             }
         }
 
-        /// <summary>
-        /// Attribute which marks a property which cannot be overridden by a RuleOverrideTile
-        /// </summary>
         public class DontOverride : Attribute { }
 
         /// <summary>
@@ -265,9 +216,6 @@ namespace UnityEngine
         /// </summary>
         [HideInInspector] public List<TilingRule> m_TilingRules = new List<RuleTile.TilingRule>();
 
-        /// <summary>
-        /// Returns a set of neighboring positions for this RuleTile
-        /// </summary>
         public HashSet<Vector3Int> neighborPositions
         {
             get
@@ -281,9 +229,6 @@ namespace UnityEngine
 
         private HashSet<Vector3Int> m_NeighborPositions = new HashSet<Vector3Int>();
 
-        /// <summary>
-        /// Updates the neighboring positions of this RuleTile
-        /// </summary>
         public void UpdateNeighborPositions()
         {
             m_CacheTilemapsNeighborPositions.Clear();
@@ -330,11 +275,11 @@ namespace UnityEngine
         /// <summary>
         /// StartUp is called on the first frame of the running Scene.
         /// </summary>
-        /// <param name="position">Position of the Tile on the Tilemap.</param>
+        /// <param name="location">Position of the Tile on the Tilemap.</param>
         /// <param name="tilemap">The Tilemap the tile is present on.</param>
         /// <param name="instantiatedGameObject">The GameObject instantiated for the Tile.</param>
         /// <returns>Whether StartUp was successful</returns>
-        public override bool StartUp(Vector3Int position, ITilemap tilemap, GameObject instantiatedGameObject)
+        public override bool StartUp(Vector3Int location, ITilemap tilemap, GameObject instantiatedGameObject)
         {
             if (instantiatedGameObject != null)
             {
@@ -350,11 +295,36 @@ namespace UnityEngine
                 foreach (TilingRule rule in m_TilingRules)
                 {
                     Matrix4x4 transform = iden;
-                    if (RuleMatches(rule, position, tilemap, ref transform))
+                    if (RuleMatches(rule, location, tilemap, ref transform))
                     {
                         transform = orientMatrix * transform;
+                        if (m_ApplyGameObjectTransform)
+                        {
+                            transform *= rule.m_GameObject.transform.localToWorldMatrix;
+                            if (tmpMap.orientation == Tilemap.Orientation.YX
+                                || tmpMap.orientation == Tilemap.Orientation.ZX
+                                || tmpMap.orientation == Tilemap.Orientation.ZY)
+                            {
+                                var inverseRotation = Matrix4x4.identity;
+                                inverseRotation.m00 = -inverseRotation.m00;
+                                inverseRotation.m11 = -inverseRotation.m11;
+                                transform *= inverseRotation;
+                                if (tmpMap.orientation == Tilemap.Orientation.YX)
+                                {
+                                    transform.m23 *= -1;
+                                }
+                                else if (tmpMap.orientation == Tilemap.Orientation.ZX)
+                                {
+                                    transform.m13 *= -1;
+                                }
+                                else
+                                {
+                                    transform.m03 *= -1;
+                                }
+                            }
+                        }
 
-                        // Converts the tile's translation, rotation, & scale matrix to values to be used by the instantiated GameObject
+                        // Converts the tile's translation, rotation, & scale matrix to values to be used by the instantiated Game Object
                         gameObjectTranslation = new Vector3(transform.m03, transform.m13, transform.m23);
                         gameObjectRotation = Quaternion.LookRotation(new Vector3(transform.m02, transform.m12, transform.m22), new Vector3(transform.m01, transform.m11, transform.m21));
                         gameObjectScale = transform.lossyScale;
@@ -371,7 +341,7 @@ namespace UnityEngine
                     gameObjectScale = orientMatrix.lossyScale;
                 }
 
-                instantiatedGameObject.transform.localPosition = gameObjectTranslation + tmpMap.CellToLocalInterpolated(position + tmpMap.tileAnchor);
+                instantiatedGameObject.transform.localPosition = gameObjectTranslation + tmpMap.CellToLocalInterpolated(location + tmpMap.tileAnchor);
                 instantiatedGameObject.transform.localRotation = gameObjectRotation;
                 instantiatedGameObject.transform.localScale = gameObjectScale;
             }
@@ -436,13 +406,14 @@ namespace UnityEngine
         static Dictionary<Tilemap, KeyValuePair<HashSet<TileBase>, HashSet<Vector3Int>>> m_CacheTilemapsNeighborPositions = new Dictionary<Tilemap, KeyValuePair<HashSet<TileBase>, HashSet<Vector3Int>>>();
         static TileBase[] m_AllocatedUsedTileArr = new TileBase[0];
 
-        static bool IsTilemapUsedTilesChange(Tilemap tilemap, out KeyValuePair<HashSet<TileBase>, HashSet<Vector3Int>> hashSet)
+        static bool IsTilemapUsedTilesChange(Tilemap tilemap)
         {
-            if (!m_CacheTilemapsNeighborPositions.TryGetValue(tilemap, out hashSet))
+            if (!m_CacheTilemapsNeighborPositions.ContainsKey(tilemap))
                 return true;
 
-            var oldUsedTiles = hashSet.Key;
+            var oldUsedTiles = m_CacheTilemapsNeighborPositions[tilemap].Key;
             int newUsedTilesCount = tilemap.GetUsedTilesCount();
+
             if (newUsedTilesCount != oldUsedTiles.Count)
                 return true;
 
@@ -450,6 +421,7 @@ namespace UnityEngine
                 Array.Resize(ref m_AllocatedUsedTileArr, newUsedTilesCount);
 
             tilemap.GetUsedTilesNonAlloc(m_AllocatedUsedTileArr);
+
             for (int i = 0; i < newUsedTilesCount; i++)
             {
                 TileBase newUsedTile = m_AllocatedUsedTileArr[i];
@@ -459,8 +431,7 @@ namespace UnityEngine
 
             return false;
         }
-
-        static KeyValuePair<HashSet<TileBase>, HashSet<Vector3Int>> CachingTilemapNeighborPositions(Tilemap tilemap)
+        static void CachingTilemapNeighborPositions(Tilemap tilemap)
         {
             int usedTileCount = tilemap.GetUsedTilesCount();
             HashSet<TileBase> usedTiles = new HashSet<TileBase>();
@@ -487,40 +458,13 @@ namespace UnityEngine
                         neighborPositions.Add(neighborPosition);
             }
 
-            var value = new KeyValuePair<HashSet<TileBase>, HashSet<Vector3Int>>(usedTiles, neighborPositions);
-            m_CacheTilemapsNeighborPositions[tilemap] = value;
-            return value;
+            m_CacheTilemapsNeighborPositions[tilemap] = new KeyValuePair<HashSet<TileBase>, HashSet<Vector3Int>>(usedTiles, neighborPositions);
         }
-
-        static bool NeedRelease()
-        {
-            foreach (var keypair in m_CacheTilemapsNeighborPositions)
-            {
-                if (keypair.Key == null)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        
         static void ReleaseDestroyedTilemapCacheData()
         {
-            if (!NeedRelease())
-                return;
-
-            var hasCleared = false;
-            var keys = m_CacheTilemapsNeighborPositions.Keys.ToArray();
-            foreach (var key in keys)
-            {
-                if (key == null && m_CacheTilemapsNeighborPositions.Remove(key))
-                    hasCleared = true;
-            }
-            if (hasCleared)
-            {
-                // TrimExcess
-                m_CacheTilemapsNeighborPositions = new Dictionary<Tilemap, KeyValuePair<HashSet<TileBase>, HashSet<Vector3Int>>>(m_CacheTilemapsNeighborPositions);
-            }
+            m_CacheTilemapsNeighborPositions = m_CacheTilemapsNeighborPositions
+                .Where(data => data.Key != null)
+                .ToDictionary(data => data.Key, data => data.Value);
         }
 
         /// <summary>
@@ -541,7 +485,7 @@ namespace UnityEngine
                     if (RuleMatches(rule, position, tilemap, ref transform))
                     {
                         tileAnimationData.animatedSprites = rule.m_Sprites;
-                        tileAnimationData.animationSpeed = Random.Range( rule.m_MinAnimationSpeed, rule.m_MaxAnimationSpeed);
+                        tileAnimationData.animationSpeed = rule.m_AnimationSpeed;
                         return true;
                     }
                 }
@@ -552,25 +496,24 @@ namespace UnityEngine
         /// <summary>
         /// This method is called when the tile is refreshed.
         /// </summary>
-        /// <param name="position">Position of the Tile on the Tilemap.</param>
+        /// <param name="location">Position of the Tile on the Tilemap.</param>
         /// <param name="tilemap">The Tilemap the tile is present on.</param>
-        public override void RefreshTile(Vector3Int position, ITilemap tilemap)
+        public override void RefreshTile(Vector3Int location, ITilemap tilemap)
         {
-            base.RefreshTile(position, tilemap);
+            base.RefreshTile(location, tilemap);
 
-            Tilemap baseTilemap = tilemap.GetComponent<Tilemap>();
+            Tilemap tilemap_2 = tilemap.GetComponent<Tilemap>();
 
             ReleaseDestroyedTilemapCacheData(); // Prevent memory leak
 
-            KeyValuePair<HashSet<TileBase>, HashSet<Vector3Int>> neighborPositionsSet;
-            if (IsTilemapUsedTilesChange(baseTilemap, out neighborPositionsSet))
-                neighborPositionsSet = CachingTilemapNeighborPositions(baseTilemap);
+            if (IsTilemapUsedTilesChange(tilemap_2))
+                CachingTilemapNeighborPositions(tilemap_2);
 
-            var neighborPositionsRuleTile = neighborPositionsSet.Value;
-            foreach (Vector3Int offset in neighborPositionsRuleTile)
+            HashSet<Vector3Int> neighborPositions = m_CacheTilemapsNeighborPositions[tilemap_2].Value;
+            foreach (Vector3Int offset in neighborPositions)
             {
-                Vector3Int offsetPosition = GetOffsetPositionReverse(position, offset);
-                TileBase tile = tilemap.GetTile(offsetPosition);
+                Vector3Int position = GetOffsetPositionReverse(location, offset);
+                TileBase tile = tilemap_2.GetTile(position);
                 RuleTile ruleTile = null;
 
                 if (tile is RuleTile)
@@ -578,9 +521,9 @@ namespace UnityEngine
                 else if (tile is RuleOverrideTile)
                     ruleTile = (tile as RuleOverrideTile).m_Tile;
 
-                if (ruleTile != null)
-                    if (ruleTile == this || ruleTile.neighborPositions.Contains(offset))
-                        base.RefreshTile(offsetPosition, tilemap);
+                if (ruleTile)
+                    if (ruleTile.neighborPositions.Contains(offset))
+                        base.RefreshTile(position, tilemap);
             }
         }
 
@@ -588,7 +531,6 @@ namespace UnityEngine
         /// Does a Rule Match given a Tiling Rule and neighboring Tiles.
         /// </summary>
         /// <param name="rule">The Tiling Rule to match with.</param>
-        /// <param name="position">Position of the Tile on the Tilemap.</param>
         /// <param name="tilemap">The tilemap to match with.</param>
         /// <param name="transform">A transform matrix which will match the Rule.</param>
         /// <returns>True if there is a match, False if not.</returns>
@@ -679,16 +621,10 @@ namespace UnityEngine
             return original;
         }
 
-        /// <summary>
-        /// Returns custom fields for this RuleTile
-        /// </summary>
-        /// <param name="isOverrideInstance">Whether override fields are returned</param>
-        /// <returns>Custom fields for this RuleTile</returns>
         public FieldInfo[] GetCustomFields(bool isOverrideInstance)
         {
-            return this.GetType().GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+            return this.GetType().GetFields()
                 .Where(field => typeof(RuleTile).GetField(field.Name) == null)
-                .Where(field => field.IsPublic || field.IsDefined(typeof(SerializeField)))
                 .Where(field => !field.IsDefined(typeof(HideInInspector)))
                 .Where(field => !isOverrideInstance || !field.IsDefined(typeof(RuleTile.DontOverride)))
                 .ToArray();
@@ -717,14 +653,12 @@ namespace UnityEngine
         /// Checks if there is a match given the neighbor matching rule and a Tile with a rotation angle.
         /// </summary>
         /// <param name="rule">Neighbor matching rule.</param>
-        /// <param name="position">Position of the Tile on the Tilemap.</param>
         /// <param name="tilemap">Tilemap to match.</param>
         /// <param name="angle">Rotation angle for matching.</param>
         /// <returns>True if there is a match, False if not.</returns>
         public bool RuleMatches(TilingRule rule, Vector3Int position, ITilemap tilemap, int angle)
         {
-            var minCount = Math.Min(rule.m_Neighbors.Count, rule.m_NeighborPositions.Count);
-            for (int i = 0; i < minCount ; i++)
+            for (int i = 0; i < rule.m_Neighbors.Count && i < rule.m_NeighborPositions.Count; i++)
             {
                 int neighbor = rule.m_Neighbors[i];
                 Vector3Int positionOffset = GetRotatedPosition(rule.m_NeighborPositions[i], angle);
@@ -741,15 +675,13 @@ namespace UnityEngine
         /// Checks if there is a match given the neighbor matching rule and a Tile with mirrored axii.
         /// </summary>
         /// <param name="rule">Neighbor matching rule.</param>
-        /// <param name="position">Position of the Tile on the Tilemap.</param>
         /// <param name="tilemap">Tilemap to match.</param>
         /// <param name="mirrorX">Mirror X Axis for matching.</param>
         /// <param name="mirrorY">Mirror Y Axis for matching.</param>
         /// <returns>True if there is a match, False if not.</returns>
         public bool RuleMatches(TilingRule rule, Vector3Int position, ITilemap tilemap, bool mirrorX, bool mirrorY)
         {
-            var minCount = Math.Min(rule.m_Neighbors.Count, rule.m_NeighborPositions.Count);
-            for (int i = 0; i < minCount; i++)
+            for (int i = 0; i < rule.m_Neighbors.Count && i < rule.m_NeighborPositions.Count; i++)
             {
                 int neighbor = rule.m_Neighbors[i];
                 Vector3Int positionOffset = GetMirroredPosition(rule.m_NeighborPositions[i], mirrorX, mirrorY);
@@ -800,23 +732,11 @@ namespace UnityEngine
             return position;
         }
 
-        /// <summary>
-        /// Get the offset for the given position with the given offset.
-        /// </summary>
-        /// <param name="position">Position to offset.</param>
-        /// <param name="offset">Offset for the position.</param>
-        /// <returns>The offset position.</returns>
         public virtual Vector3Int GetOffsetPosition(Vector3Int position, Vector3Int offset)
         {
             return position + offset;
         }
 
-        /// <summary>
-        /// Get the reversed offset for the given position with the given offset.
-        /// </summary>
-        /// <param name="position">Position to offset.</param>
-        /// <param name="offset">Offset for the position.</param>
-        /// <returns>The reversed offset position.</returns>
         public virtual Vector3Int GetOffsetPositionReverse(Vector3Int position, Vector3Int offset)
         {
             return position - offset;
