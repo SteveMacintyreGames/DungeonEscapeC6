@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private float _raycastDistance = 1.1f;
     PlayerAnimation _anim;
     SpriteRenderer _spriteRenderer;
+    [SerializeField] private bool _grounded = false;
  
     void Start()
     {
@@ -20,29 +21,47 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
+        
         CheckMovement();
-        FlipCharacter();        
+        CheckAttack();
+        FlipCharacter();
+
     }
     private void CheckMovement()
     {
+        _grounded = IsGrounded();
         _horizontalInput = (int)Input.GetAxisRaw("Horizontal");   
         _anim.Move(_horizontalInput);
         
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        if (Input.GetButtonDown("Jump") && _grounded)
         {
+            _anim.Jump(true);
             _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, _jumpForce);
         }
 
         _rigidbody2D.velocity = new Vector2(_horizontalInput * _speed, _rigidbody2D.velocity.y);
              
     }
+
+    private void CheckAttack()
+    {
+        if (Input.GetKey(KeyCode.Mouse0) && _grounded)
+        {
+            _anim.Attack();
+        }
+    }
+
+
      bool IsGrounded()
     {
         var _hit = Physics2D.Raycast(transform.position, Vector2.down, _raycastDistance, 1 << 8);
+        Debug.DrawRay(transform.position, Vector2.down, Color.green);
        
         if (_hit.collider !=null)
-            {        
+            { 
+                _anim.Jump(false);       
                 return true;
+                
             }
             return false;
     }

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,14 +11,19 @@ public class PlayerAnimation : MonoBehaviour
        _anim = GetComponentInChildren<Animator>(); 
     }
 
-
-    void Update()
-    {
-        
-    }
-
     public void Move(int move)
     {
         _anim.SetInteger("Move", Mathf.Abs(move));
     }
+
+    public void Jump(bool isJumping)
+    {
+        _anim.SetBool("isJumping",isJumping);     
+    }
+
+    public void Attack()
+    {
+        _anim.SetTrigger("Attack");
+    }
+
 }
