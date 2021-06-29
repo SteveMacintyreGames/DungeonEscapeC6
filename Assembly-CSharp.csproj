@@ -37,8 +37,11 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Animation\AttackBehaviour.cs" />
-     <Compile Include="Assets\Scripts\Player.cs" />
-     <Compile Include="Assets\Scripts\PlayerAnimation.cs" />
+     <Compile Include="Assets\Scripts\Animation\Sword_Arc_Behaviour.cs" />
+     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
+     <Compile Include="Assets\Scripts\Enemy\MossGiant.cs" />
+     <Compile Include="Assets\Scripts\Player\Player.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerAnimation.cs" />
     <Reference Include="UnityEngine">
         <HintPath>/home/steve/Unity/Hub/Editor/2019.4.22f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -656,6 +659,12 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
         <HintPath>/home/steve/GameDevTopia/GameDev University/GameDev HQ/06 - Mobile Game Dev/DungeonEscapeC6/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Cinemachine">
+        <HintPath>/home/steve/GameDevTopia/GameDev University/GameDev HQ/06 - Mobile Game Dev/DungeonEscapeC6/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.cinemachine.editor">
+        <HintPath>/home/steve/GameDevTopia/GameDev University/GameDev HQ/06 - Mobile Game Dev/DungeonEscapeC6/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
