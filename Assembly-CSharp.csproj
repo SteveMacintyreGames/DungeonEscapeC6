@@ -39,7 +39,9 @@
      <Compile Include="Assets\Scripts\Animation\AttackBehaviour.cs" />
      <Compile Include="Assets\Scripts\Animation\Sword_Arc_Behaviour.cs" />
      <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
-     <Compile Include="Assets\Scripts\Enemy\MossGiant.cs" />
+     <Compile Include="Assets\Scripts\Enemy\Moss_Giant.cs" />
+     <Compile Include="Assets\Scripts\Enemy\Skeleton.cs" />
+     <Compile Include="Assets\Scripts\Enemy\Spider.cs" />
      <Compile Include="Assets\Scripts\Player\Player.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerAnimation.cs" />
     <Reference Include="UnityEngine">
@@ -567,6 +569,9 @@
     <Reference Include="Unity.Timeline.Editor">
         <HintPath>/home/steve/GameDevTopia/GameDev University/GameDev HQ/06 - Mobile Game Dev/DungeonEscapeC6/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Cinemachine">
+        <HintPath>/home/steve/GameDevTopia/GameDev University/GameDev HQ/06 - Mobile Game Dev/DungeonEscapeC6/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.2D.Animation.Runtime">
         <HintPath>/home/steve/GameDevTopia/GameDev University/GameDev HQ/06 - Mobile Game Dev/DungeonEscapeC6/Library/ScriptAssemblies/Unity.2D.Animation.Runtime.dll</HintPath>
     </Reference>
@@ -639,6 +644,9 @@
     <Reference Include="Unity.Sysroot.Linux_x86_64">
         <HintPath>/home/steve/GameDevTopia/GameDev University/GameDev HQ/06 - Mobile Game Dev/DungeonEscapeC6/Library/ScriptAssemblies/Unity.Sysroot.Linux_x86_64.dll</HintPath>
     </Reference>
+    <Reference Include="com.unity.cinemachine.editor">
+        <HintPath>/home/steve/GameDevTopia/GameDev University/GameDev HQ/06 - Mobile Game Dev/DungeonEscapeC6/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Toolchain.Linux-x86_64">
         <HintPath>/home/steve/GameDevTopia/GameDev University/GameDev HQ/06 - Mobile Game Dev/DungeonEscapeC6/Library/ScriptAssemblies/Unity.Toolchain.Linux-x86_64.dll</HintPath>
     </Reference>
@@ -659,12 +667,6 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
         <HintPath>/home/steve/GameDevTopia/GameDev University/GameDev HQ/06 - Mobile Game Dev/DungeonEscapeC6/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Cinemachine">
-        <HintPath>/home/steve/GameDevTopia/GameDev University/GameDev HQ/06 - Mobile Game Dev/DungeonEscapeC6/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
-    </Reference>
-    <Reference Include="com.unity.cinemachine.editor">
-        <HintPath>/home/steve/GameDevTopia/GameDev University/GameDev HQ/06 - Mobile Game Dev/DungeonEscapeC6/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
