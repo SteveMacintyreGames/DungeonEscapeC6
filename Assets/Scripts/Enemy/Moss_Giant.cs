@@ -7,7 +7,6 @@ public class Moss_Giant : Enemy
    Transform _currentPosition;
    private float _step;
    Animator _anim;
-   private bool _facingRight = true;
    private SpriteRenderer _spriteRenderer;
 
 
@@ -29,16 +28,24 @@ public class Moss_Giant : Enemy
          return;
       } 
      Movement();
-     FacingCheck();
+
    }
 
    private void Movement()
    {
+      if (_currentPosition.position == _pointA.position)
+      {
+         _spriteRenderer.flipX = false;
+      }
+      else if(_currentPosition.position == _pointB.position)
+      {
+          _spriteRenderer.flipX = true;
+      }
+
        if (transform.position.x >= _pointA.position.x)
       {
          _anim.SetTrigger("Idle");
          _currentPosition = _pointB;
-         _facingRight = false;
       }
 
       if (transform.position.x <= _pointB.position.x)
@@ -46,22 +53,12 @@ public class Moss_Giant : Enemy
          
          _anim.SetTrigger("Idle");
          _currentPosition = _pointA;
-         _facingRight = true;
+
          
       }
       
       this.transform.position = Vector2.MoveTowards(transform.position, _currentPosition.position, _step);
    }
 
-   private void FacingCheck()
-   {
-      if(_facingRight)
-      {
-         _spriteRenderer.flipX = false;
-      }
-      else
-      {
-        _spriteRenderer.flipX = true;  
-      }
-   }
+
 }
