@@ -2,8 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Moss_Giant : Enemy
+public class Moss_Giant : Enemy, IDamagable
 {
+    public int Health { get; set; }
 
+    public override void Init()
+    {
+        base.Init();
+    }
 
+    public void Damage()
+    {
+
+    }
 }
