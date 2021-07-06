@@ -76,6 +76,18 @@ public virtual void Movement()
 
         CheckDistance();
 
+        Vector2 direction = player.transform.position - this.transform.position;
+
+        if (direction.x > 0 && anim.GetBool("InCombat")==true )
+        {
+            spriteRenderer.flipX = false;
+        }
+        else if (direction.x < 0 && anim.GetBool("InCombat")==true )
+        {
+            spriteRenderer.flipX = true;
+        }
+        
+
 
         
     }

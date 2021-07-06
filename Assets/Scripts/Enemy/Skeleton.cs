@@ -22,15 +22,6 @@ public class Skeleton : Enemy, IDamagable
     public override void Movement()
     {
         base.Movement();
-        Vector2 direction = player.transform.position - this.transform.position;
-        if (direction.x > 0 && anim.GetBool("InCombat")==true )
-        {
-            spriteRenderer.flipX = false;
-        }
-        else if (direction.x < 0 && anim.GetBool("InCombat")==true )
-        {
-            spriteRenderer.flipX = true;
-        }
     }
 
     public void Damage()
