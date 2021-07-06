@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamagable
 {
     Rigidbody2D _rigidbody2D;
      private int _horizontalInput;
@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     SpriteRenderer _spriteRenderer;
     [SerializeField] private bool _grounded = false;
     private bool _facingRight = true;
+
+    public int Health { get; set; }
 
     void Start()
     {
@@ -72,6 +74,11 @@ public class Player : MonoBehaviour
             _facingRight = !_facingRight;
             transform.Rotate(new Vector3(0,180,0));
         }        
+    }
+
+    public void Damage()
+    {
+        Debug.LogWarning("Player hit");
     }
 
 }
