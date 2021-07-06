@@ -32,7 +32,9 @@ public class Skeleton : Enemy, IDamagable
         isHit = true;
         if (Health <= 0)
         {
-            Destroy(this.gameObject);
+            anim.SetTrigger("Death");
+            isDead = true;
+            GetComponent<BoxCollider2D>().enabled = false;
         }
     }
 

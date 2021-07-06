@@ -18,6 +18,8 @@ public abstract class Enemy : MonoBehaviour
     protected float step;
 
     protected bool isHit = false;
+    protected bool isDead = false;
+
 
     protected GameObject player;
 
@@ -41,7 +43,9 @@ public abstract class Enemy : MonoBehaviour
       {
          return;
       } 
-      Movement();
+
+      if (isDead == false)
+        Movement();
     }
 
 

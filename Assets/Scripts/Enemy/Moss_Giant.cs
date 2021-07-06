@@ -9,7 +9,7 @@ public class Moss_Giant : Enemy, IDamagable
     public override void Init()
     {
         base.Init();
-        Health = base.health;
+        Health = base.health;       
     }
 
     public override void Movement()
@@ -21,11 +21,14 @@ public class Moss_Giant : Enemy, IDamagable
     {
         anim.SetTrigger("Hit");
         anim.SetBool("InCombat", true);
-        Health --;
         isHit = true;
+        Health --;
+
         if (Health <= 0)
         {
-            Destroy(this.gameObject);
+            anim.SetTrigger("Death");
+            isDead = true;
+            GetComponent<BoxCollider2D>().enabled = false;
         }
     }
 }

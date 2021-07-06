@@ -11,6 +11,7 @@ public class Spider : Enemy, IDamagable
     public override void Init()
     {
         base.Init();
+        Health = base.health;
     }
 
     public override void Movement()
@@ -21,7 +22,13 @@ public class Spider : Enemy, IDamagable
 
     public void Damage()
     {
-
+      health --;
+      if (health <= 0)
+      {
+        anim.SetTrigger("Death");
+        isDead = true;
+        GetComponent<BoxCollider2D>().enabled = false;
+      }
     }
 
     public void Attack()
