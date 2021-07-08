@@ -39,12 +39,14 @@
      <Compile Include="Assets\Scripts\Animation\AttackBehaviour.cs" />
      <Compile Include="Assets\Scripts\Animation\Sword_Arc_Behaviour.cs" />
      <Compile Include="Assets\Scripts\Attack.cs" />
+     <Compile Include="Assets\Scripts\Diamond.cs" />
      <Compile Include="Assets\Scripts\Enemy\AcidEffect.cs" />
      <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
      <Compile Include="Assets\Scripts\Enemy\Moss_Giant.cs" />
      <Compile Include="Assets\Scripts\Enemy\Skeleton.cs" />
      <Compile Include="Assets\Scripts\Enemy\Spider.cs" />
      <Compile Include="Assets\Scripts\Enemy\Spider_Animation_Event.cs" />
+     <Compile Include="Assets\Scripts\Enemy\TempEnemy.cs" />
      <Compile Include="Assets\Scripts\IDamagable.cs" />
      <Compile Include="Assets\Scripts\Player\Player.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerAnimation.cs" />

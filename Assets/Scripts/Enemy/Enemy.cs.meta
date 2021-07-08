@@ -3,7 +3,11 @@ guid: 9eb7bd620abe60661a5058c8403f7bee
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - pointA: {instanceID: 0}
+  - pointB: {instanceID: 0}
+  - diamond: {fileID: 6034789923449462098, guid: 6ffda5792ff0c3a0aaca154c2dd4bbbb,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

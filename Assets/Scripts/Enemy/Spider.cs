@@ -6,7 +6,7 @@ public class Spider : Enemy, IDamagable
 {
   public int Health { get; set; }
 
-  [SerializeField] GameObject acidBooger;
+  [SerializeField] GameObject acidEffect;
 
     public override void Init()
     {
@@ -28,13 +28,14 @@ public class Spider : Enemy, IDamagable
         anim.SetTrigger("Death");
         isDead = true;
         GetComponent<BoxCollider2D>().enabled = false;
+        base.GemSplash();
       }
     }
 
     public void Attack()
     {
       //instantiate the acid effect.
-      Instantiate (acidBooger, transform.position, Quaternion.identity);
+      Instantiate (acidEffect, transform.position, Quaternion.identity);
       
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +10,8 @@ public abstract class Enemy : MonoBehaviour
     
     [SerializeField] protected Transform pointA;
     [SerializeField] protected Transform pointB;
+
+    [SerializeField] protected GameObject diamond;
 
     protected Transform currentTarget;
     protected Animator anim;
@@ -78,34 +80,34 @@ public virtual void Movement()
             Vector2.MoveTowards(transform.position, currentTarget.position, step);
         }
 
-        CheckDistance();
+        Vector2 distance = player.transform.position - this.transform.position;
 
-        Vector2 direction = player.transform.position - this.transform.position;
-
-        if (direction.x > 0 && anim.GetBool("InCombat")==true )
-        {
-            spriteRenderer.flipX = false;
-        }
-        else if (direction.x < 0 && anim.GetBool("InCombat")==true )
-        {
-            spriteRenderer.flipX = true;
-        }
-        
-
-
-        
-    }
-
-    void CheckDistance()
-    {
-        
-        float distance = Vector2.Distance(this.transform.position, player.transform.position);
-       
-        if (distance >2)
+        if (distance.x > 2)
         {
             isHit = false;
             anim.SetBool("InCombat", false);
         }
+
+        if (distance.x > 0 && anim.GetBool("InCombat")==true )
+        {
+            spriteRenderer.flipX = false;
+        }
+        else if (distance.x < 0 && anim.GetBool("InCombat")==true )
+        {
+            spriteRenderer.flipX = true;
+        }      
+        
     }
+
+    public virtual void GemSplash()
+    {
+        for (int x=0; x < gems; x++)
+          {
+            GameObject gem = Instantiate(diamond,transform.position, Quaternion.identity);
+            Vector3 impulseMagnitude = new Vector3(Random.Range(-3f,3f),Random.Range(1f,4f),0);
+            gem.GetComponent<Rigidbody2D>().AddForce(impulseMagnitude ,ForceMode2D.Impulse);
+          }
+    }
+
 
 }

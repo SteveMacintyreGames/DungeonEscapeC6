@@ -27,8 +27,9 @@ public class Moss_Giant : Enemy, IDamagable
         if (Health <= 0)
         {
             anim.SetTrigger("Death");
-            isDead = true;
+            isDead = true;           
             GetComponent<BoxCollider2D>().enabled = false;
+            base.GemSplash();
         }
     }
 }

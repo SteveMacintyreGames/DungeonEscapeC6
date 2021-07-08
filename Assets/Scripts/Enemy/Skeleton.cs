@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,16 +9,13 @@ public class Skeleton : Enemy, IDamagable
     public override void Init()
     {
         base.Init();
-        Health = base.health;
-       
+        Health = base.health;       
     }
-
     public override void Update()
     {
         base.Update(); 
 
     }
-
     public override void Movement()
     {
         base.Movement();
@@ -35,6 +32,7 @@ public class Skeleton : Enemy, IDamagable
             anim.SetTrigger("Death");
             isDead = true;
             GetComponent<BoxCollider2D>().enabled = false;
+            base.GemSplash();
         }
     }
 
