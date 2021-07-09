@@ -50,6 +50,8 @@
      <Compile Include="Assets\Scripts\IDamagable.cs" />
      <Compile Include="Assets\Scripts\Player\Player.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerAnimation.cs" />
+     <Compile Include="Assets\Scripts\ShopKeeper.cs" />
+     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
     <Reference Include="UnityEngine">
         <HintPath>/home/steve/Unity/Hub/Editor/2019.4.22f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

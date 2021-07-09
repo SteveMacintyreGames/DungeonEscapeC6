@@ -8,7 +8,7 @@ public class Player : MonoBehaviour, IDamagable
      private int _horizontalInput;
     [SerializeField] private float _speed = 2f;
     [SerializeField] private float _jumpForce = 5f;
-    private float _raycastDistance = 1.1f;
+    private float _raycastDistance = 1.2f;
     PlayerAnimation _anim;
     SpriteRenderer _spriteRenderer;
     [SerializeField] private bool _grounded = false;
