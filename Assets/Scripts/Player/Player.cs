@@ -16,19 +16,22 @@ public class Player : MonoBehaviour, IDamagable
 
     public int Health { get; set; }
 
-    [SerializeField] private int _diamonds;
+    public int diamonds;
+   
 
     void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _anim = GetComponent<PlayerAnimation>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        _diamonds = 0;
+        diamonds = 0;
+
     }
     void Update()
     {
         CheckMovement();
         CheckAttack();
+        
     }
     private void CheckMovement()
     {
@@ -86,7 +89,7 @@ public class Player : MonoBehaviour, IDamagable
 
     public void AddDiamonds(int amount)
     {
-        _diamonds += amount;
+        diamonds += amount;
     }
 
 }

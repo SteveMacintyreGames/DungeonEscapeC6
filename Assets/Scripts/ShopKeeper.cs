@@ -11,11 +11,7 @@ public class ShopKeeper : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            Player player = other.GetComponent<player>();
-            if (player != null)
-            {
-                UIManager.Instance.OpenShop(player._diamonds;)
-            }
+          
             _shopPanel.SetActive(true);
         }
        
