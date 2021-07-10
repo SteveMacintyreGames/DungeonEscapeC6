@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    
+
     void Awake()
     {
         _instance = this;
@@ -25,10 +27,19 @@ public class UIManager : MonoBehaviour
 
 
     public Text playerGemCountText;
+    public Image selectionImg;
+
 
     public void OpenShop(int gemCount)
     {
         playerGemCountText.text = "Gems: " + gemCount + "G";
+    }
+
+    public void UpdateShopSelection(int yPos)
+    {
+        Vector2 currentPos = selectionImg.rectTransform.anchoredPosition;
+
+        selectionImg.rectTransform.anchoredPosition = new Vector2(currentPos.x ,yPos);
     }
   
 }

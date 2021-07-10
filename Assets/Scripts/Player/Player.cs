@@ -16,7 +16,7 @@ public class Player : MonoBehaviour, IDamagable
 
     public int Health { get; set; }
 
-    public int diamonds;
+    public int diamonds = 0;
    
 
     void Start()
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour, IDamagable
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _anim = GetComponent<PlayerAnimation>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        diamonds = 0;
+    
 
     }
     void Update()
