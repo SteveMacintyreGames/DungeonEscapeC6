@@ -27,7 +27,11 @@ public class UIManager : MonoBehaviour
 
 
     public Text playerGemCountText;
+    public Text gemCountText;
     public Image selectionImg;
+
+    public Image[] lifeUnit;
+
 
 
     public void OpenShop(int gemCount)
@@ -40,6 +44,22 @@ public class UIManager : MonoBehaviour
         Vector2 currentPos = selectionImg.rectTransform.anchoredPosition;
 
         selectionImg.rectTransform.anchoredPosition = new Vector2(currentPos.x ,yPos);
+    }
+
+    public void UpdateGemCount(int gemCount)
+    {
+        gemCountText.text = gemCount.ToString();
+    }
+
+    public void UpdateHealth(int health)
+    {
+        for(int x = 0; x <= health; x++)
+        {
+            if (x == health)
+            {
+                lifeUnit[x].enabled = false;
+            }
+        }
     }
   
 }

@@ -24,6 +24,7 @@ public class Player : MonoBehaviour, IDamagable
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _anim = GetComponent<PlayerAnimation>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        Health = 4;
     
 
     }
@@ -84,12 +85,19 @@ public class Player : MonoBehaviour, IDamagable
 
     public void Damage()
     {
-        Debug.LogWarning("Player hit");
+        Health--;
+        UIManager.Instance.UpdateHealth(Health);
+        if (Health == 0)
+        {
+            _anim.Death();
+            
+        }
     }
 
     public void AddDiamonds(int amount)
     {
         diamonds += amount;
+        UIManager.Instance.UpdateGemCount(diamonds);
     }
 
 }
