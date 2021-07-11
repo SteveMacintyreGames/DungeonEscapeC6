@@ -17,6 +17,7 @@ public class Player : MonoBehaviour, IDamagable
     public int Health { get; set; }
 
     public int diamonds = 0;
+    private bool _isDead = false;
    
 
     void Start()
@@ -30,8 +31,12 @@ public class Player : MonoBehaviour, IDamagable
     }
     void Update()
     {
-        CheckMovement();
-        CheckAttack();
+        if (!_isDead)
+        {
+            CheckMovement();
+            CheckAttack();
+        }
+        
         
     }
     private void CheckMovement()
@@ -85,11 +90,16 @@ public class Player : MonoBehaviour, IDamagable
 
     public void Damage()
     {
+        if (Health < 1)
+        {
+            return;
+        }
         Health--;
         UIManager.Instance.UpdateHealth(Health);
         if (Health == 0)
         {
             _anim.Death();
+            _isDead = true;
             
         }
     }
