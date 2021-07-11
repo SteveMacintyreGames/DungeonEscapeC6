@@ -77,6 +77,10 @@ public class ShopKeeper : MonoBehaviour
        if (_playerDiamonds >= _cost)
        { 
            Debug.Log(_itemDescription + " purchased.");
+           if(_selectedItem == 2)
+           {
+               GameManager.Instance.hasKeyToCastle = true;
+           }
            _shopPanel.SetActive(false);
        }
        else
