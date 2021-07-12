@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour, IDamagable
 {
@@ -42,11 +43,11 @@ public class Player : MonoBehaviour, IDamagable
     private void CheckMovement()
     {
         _grounded = IsGrounded();
-        _horizontalInput = (int)Input.GetAxisRaw("Horizontal");
+        _horizontalInput = ((int)CrossPlatformInputManager.GetAxisRaw("Horizontal"));
         FlipCharacter();   
         _anim.Move(_horizontalInput);
         
-        if (Input.GetButtonDown("Jump") && _grounded)
+        if ((Input.GetButtonDown("Jump") || CrossPlatformInputManager.GetButtonDown("Jump")) && _grounded)
         {
             _anim.Jump(true);
             _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, _jumpForce);
@@ -58,7 +59,7 @@ public class Player : MonoBehaviour, IDamagable
 
     private void CheckAttack()
     {
-        if (Input.GetKey(KeyCode.Mouse0) && _grounded)
+        if ((Input.GetButtonDown("Fire1") || CrossPlatformInputManager.GetButtonDown("Fire1")) && _grounded)
         {
             _anim.Attack();
         }
