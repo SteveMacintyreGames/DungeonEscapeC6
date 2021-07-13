@@ -728,10 +728,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: 2d2757ae-306b-4867-9309-13bd8509c945
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: DungeonEscapeC6
+  organizationId: steve-macintyre
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

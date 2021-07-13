@@ -44,6 +44,7 @@
      <Compile Include="Assets\SampleScenes\Scripts\ParticleSceneControls.cs" />
      <Compile Include="Assets\SampleScenes\Scripts\PlaceTargetWithMouse.cs" />
      <Compile Include="Assets\SampleScenes\Scripts\SlowMoButton.cs" />
+     <Compile Include="Assets\Scripts\AdManager.cs" />
      <Compile Include="Assets\Scripts\Animation\AttackBehaviour.cs" />
      <Compile Include="Assets\Scripts\Animation\Sword_Arc_Behaviour.cs" />
      <Compile Include="Assets\Scripts\Attack.cs" />
@@ -685,6 +686,15 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
         <HintPath>/home/steve/GameDevTopia/GameDev University/GameDev HQ/06 - Mobile Game Dev/DungeonEscapeC6/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Monetization">
+        <HintPath>/home/steve/GameDevTopia/GameDev University/GameDev HQ/06 - Mobile Game Dev/DungeonEscapeC6/Library/ScriptAssemblies/UnityEngine.Monetization.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+        <HintPath>/home/steve/GameDevTopia/GameDev University/GameDev HQ/06 - Mobile Game Dev/DungeonEscapeC6/Library/ScriptAssemblies/UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Advertisements.Editor">
+        <HintPath>/home/steve/GameDevTopia/GameDev University/GameDev HQ/06 - Mobile Game Dev/DungeonEscapeC6/Library/ScriptAssemblies/UnityEngine.Advertisements.Editor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

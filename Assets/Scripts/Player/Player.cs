@@ -43,6 +43,7 @@ public class Player : MonoBehaviour, IDamagable
     private void CheckMovement()
     {
         _grounded = IsGrounded();
+        //_horizontalInput = ((int)Input.GetAxisRaw("Horizontal"));
         _horizontalInput = ((int)CrossPlatformInputManager.GetAxisRaw("Horizontal"));
         FlipCharacter();   
         _anim.Move(_horizontalInput);
