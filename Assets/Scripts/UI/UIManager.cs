@@ -31,6 +31,8 @@ public class UIManager : MonoBehaviour
     public Image selectionImg;
 
     public Image[] lifeUnit;
+    [SerializeField] private GameObject messagePanel;
+    [SerializeField] private Text messagePanelText;
 
 
 
@@ -60,6 +62,24 @@ public class UIManager : MonoBehaviour
                 lifeUnit[x].enabled = false;
             }
         }
+    }
+
+    public void CloseMessageBox()
+    {
+        Debug.Log("MessagePanel close button pressed");
+        messagePanel.SetActive(false);
+    }
+
+    public void ExitWin()
+    {
+        messagePanel.SetActive(true);
+        messagePanelText.text = "Congratulations, you've entered the castle and won the game.";
+    }
+
+    public void ExitNoKey()
+    {
+        messagePanel.SetActive(true);
+        messagePanelText.text = "You need the castle key!";
     }
   
 }

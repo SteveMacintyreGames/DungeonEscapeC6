@@ -18,7 +18,7 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 29
-        applicationId 'com.DefaultCompany.DungeonEscapeC6'
+        applicationId 'com.SteveTheDragon.DungeonEscape'
         ndk {
             abiFilters 'armeabi-v7a'
         }
@@ -31,6 +31,15 @@ android {
         ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
     }
 
+    signingConfigs {
+        release {
+            storeFile file('/home/steve/GameDevTopia/GooglePlay/KeyStore/user.keystore')
+            storePassword 'SteveTheDragonIsCodingFunGames!888'
+            keyAlias 'dungeon escape'
+            keyPassword 'SteveTheDragonIsCodingFunGames!888'
+        }
+    }
+
     lintOptions {
         abortOnError false
     }
@@ -40,14 +49,14 @@ android {
             minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt')
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             jniDebuggable true
         }
         release {
             minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt')
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
 
